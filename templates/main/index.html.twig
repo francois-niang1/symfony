@@ -1,0 +1,9 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello MainController!{% endblock %}
+
+{% block body %}
+<h1>Blog François Niang</h1>
+<p>Binvenue dans le blog{% if is_granted('IS_AUTHENTICATED_FULLY') %}, {{app.user.firstname}}{% endif %}</p>
+
+{% endblock %}
