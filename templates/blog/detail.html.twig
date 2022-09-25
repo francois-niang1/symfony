@@ -1,17 +1,33 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello BlogController!
-{% endblock %}
+{% block title %}Detail de l'article{% endblock %}
 
 {% block body %}
-	<div class="container">
-		<div class="row">
-					<h2 >{{ article.titre }}</h2>
-					<p>{{ article.texte }}</p>
-                    <p>Publié le : {{ article.date|date('D-m-Y') }}</p>
-                    {# <p> publié par : {{ article.id_user }}</p> #}
-				</div>
-			</div>
-		</div>
-	</div>
+
+
+<div class="p-2">
+    <div class="card">
+        <div class="card-body">
+            <p class="h2">{{article.titre}}</p>
+            <p>{{article.texte}}</p>
+            <p><em>{{article.date|date("d/m/Y")}} {{article.date|date("H:i")}}</em></p>
+			<p> Ecrit par {{article.user.firstname}} {{article.user.name}}</p>
+        </div>
+    </div>
+    <div class="card" style="width: 18rem; margin-top: 20px">
+        <ul class="list-group list-group-flush">
+            {% for comment in article.commentaires %}
+            <li class="list-group-item">{{comment.texte}} <p><em>Ecrit par {{comment.user.firstname}} {{comment.user.name}}<em></p></li>
+            {% endfor %}
+        </ul>
+    </div>
+    {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+        {{ form_start(commentForm) }}
+            {{ form_row(commentForm.texte) }}
+
+            <button type="submit" class="btn btn-primary" style="margin-top: 20px">Envoyer commentaire</button>
+        {{ form_end(commentForm) }}
+    {% endif %}
+</div>
+
 {% endblock %}
